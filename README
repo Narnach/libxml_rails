@@ -1,0 +1,6 @@
+libxml_rails
+===========
+
+libxml_rails is a plugin by Brandon Mitchell designed to replace the default XML processor in Rails (XmlSimple) with the C-based libxml. Requires the libxml-ruby gem.
+
+Copyright (c) 2008 Brandon Mitchell, released under the MIT license
