@@ -1,3 +1,5 @@
+require 'libxml'
+
 module Bitbckt #:nodoc:
   module CoreExtensions #:nodoc:
     module Hash #:nodoc:
@@ -9,7 +11,7 @@ module Bitbckt #:nodoc:
         
         module ClassMethods
           def from_xml(xml)
-            result = XML::Parser.string(xml).parse
+            result = LibXML::XML::Parser.string(xml).parse
             if result.root.attributes['type'] == 'array'
               { result.root.name.to_s => array_from_node(result.root) }
             else
