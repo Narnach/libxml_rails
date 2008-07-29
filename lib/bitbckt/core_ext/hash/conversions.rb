@@ -37,9 +37,9 @@ module Bitbckt #:nodoc:
                       #       an empty string (#children == []), but has attributes.
                       result = ''
                     elsif child.attributes['type'] == 'file'
-                      result = XML_PARSING['file'].call(child.content.to_s, child.attributes)
-                    elsif XML_PARSING.include? child.attributes['type'] and not child.content.to_s.chomp.blank?
-                      result = XML_PARSING[child.attributes['type']].call(child.content.to_s)
+                      result = Object::Hash::XML_PARSING['file'].call(child.content.to_s, child.attributes)
+                    elsif Object::Hash::XML_PARSING.include? child.attributes['type'] and not child.content.to_s.chomp.blank?
+                      result = Object::Hash::XML_PARSING[child.attributes['type']].call(child.content.to_s)
                     else
                       result = xml_node_to_hash(child)
                       result['type'] = child.attributes['type'] if child.attributes['type'] and result
