@@ -19,3 +19,8 @@ desc 'Install the package as a gem, without generating documentation(ri/rdoc)'
 task :install_gem_no_doc => [:clean, :package] do
   sh "#{'sudo ' unless Hoe::WINDOZE }gem install pkg/*.gem --no-rdoc --no-ri"
 end
+
+desc 'Run specs'
+Spec::Rake::SpecTask.new do |t|
+  t.spec_opts = ['--format', 'specdoc', '--colour', '--diff']
+end
