@@ -1,9 +1,10 @@
 require 'rubygems'
 require 'rake'
+require 'spec/rake/spectask'
 
 begin
   require 'echoe'
-  Echoe.new('libxml_rails', '0.0.1') do |p|
+  Echoe.new('libxml_rails', '0.0.2') do |p|
     p.summary = 'A plugin substituting libxml-ruby for XmlSimple in Rails.'
     p.url = 'http://github.com/bitbckt/libxml_rails'
     p.author = 'Brandon Mitchell'
