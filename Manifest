@@ -1,4 +1,5 @@
 init.rb
+lib/libxml_rails.rb
 lib/bitbckt/core_ext/hash/conversions.rb
 Manifest
 MIT-LICENSE

@@ -1,0 +1,1 @@
+require 'bitbckt/core_ext/hash/conversions'

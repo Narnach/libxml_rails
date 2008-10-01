@@ -12,7 +12,7 @@ authors:
 autorequire: 
 bindir: bin
 
-date: 2008-07-29 00:00:00 -07:00
+date: 2008-10-01 00:00:00 +02:00
 default_executable: 
 dependencies: 
 - !ruby/object:Gem::Dependency 
@@ -55,11 +55,13 @@ executables: []
 extensions: []
 
 extra_rdoc_files: 
+- lib/libxml_rails.rb
 - lib/bitbckt/core_ext/hash/conversions.rb
 - README
 - libxml_rails.gemspec
 files: 
 - init.rb
+- lib/libxml_rails.rb
 - lib/bitbckt/core_ext/hash/conversions.rb
 - Manifest
 - MIT-LICENSE
@@ -86,7 +88,7 @@ required_ruby_version: !ruby/object:Gem::Requirement
   version: 
 required_rubygems_version: !ruby/object:Gem::Requirement 
   requirements: 
-  - - "="
+  - - ">="
     - !ruby/object:Gem::Version 
       version: "1.2"
   version: 
