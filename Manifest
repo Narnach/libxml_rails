@@ -1,7 +1,11 @@
+CHANGELOG
 init.rb
-lib/libxml_rails.rb
 lib/bitbckt/core_ext/hash/conversions.rb
+lib/libxml_rails.rb
+libxml_rails.gemspec
 Manifest
 MIT-LICENSE
 Rakefile
-README
+README.rdoc
+spec/from_xml_spec.rb
+spec/spec_helper.rb
