@@ -1,8 +1,12 @@
 = libxml_rails
 
-libxml_rails is a gem/rails plugin by Brandon Mitchell. It is designed to replace the default XML processor in Rails (XmlSimple) with the C-based libxml. It requires the libxml-ruby gem at runtime and the echoe gem for development.
+libxml_rails is a gem/rails plugin by Brandon Mitchell. It is designed to replace the default XML processor in Rails (XmlSimple) with the C-based libxml. It requires the libxml-ruby gem.
 
 This fork is maintained by Wes 'Narnach' Oldenbeuving.
+
+Changes from the Brandon's version are:
+* Don't rely on echoe to build the gem.
+* Default Hash#to_xml to not be dasherized to compensate for Hash#from_xml not undasherizing the data.
 
 === Installation
 
@@ -13,7 +17,6 @@ libxml_rails can be installed as a rails plugin or as a stand-alone gem.
 From PROJECT_ROOT:
 
   gem install libxml-ruby
-  gem install echoe
   rake install
 
 === Plugin Installation

@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   # Files
   root_files     = %w[CHANGELOG init.rb libxml_rails.gemspec MIT-LICENSE Rakefile README.rdoc]
-  lib_files      = %w[bitbckt/core_ext/hash/conversions libxml_rails]
+  lib_files      = %w[bitbckt/core_ext/hash/conversions narnach/core_ext/hash/conversions libxml_rails]
   spec_files     = %w[from_xml]
   other_files    = %w[spec/spec_helper.rb]
   s.require_path = "lib"
@@ -26,8 +26,8 @@ Gem::Specification.new do |s|
   s.rdoc_options << '--inline-source' << '--line-numbers' << '--main' << 'README.rdoc'
 
   # Dependencies
-  s.add_dependency 'activesupport', '>= 2.1.0'
-  s.add_dependency 'libxml-ruby', '>=0.8.3'
+  s.add_dependency 'activesupport', '= 2.1.0'
+  s.add_dependency 'libxml-ruby', '= 0.8.3'
 
   # Requirements
   s.required_ruby_version = ">= 1.8.0"
