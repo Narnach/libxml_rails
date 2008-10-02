@@ -1,27 +1,28 @@
+require "rake"
+require "rake/clean"
+require "rake/gempackagetask"
 require 'rubygems'
-require 'rake'
-require 'spec/rake/spectask'
+
+################################################################################
+### Gem
+################################################################################
 
 begin
-  require 'echoe'
-  Echoe.new('libxml_rails', '0.0.2') do |p|
-    p.summary = 'A plugin substituting libxml-ruby for XmlSimple in Rails.'
-    p.url = 'http://github.com/bitbckt/libxml_rails'
-    p.author = 'Brandon Mitchell'
-    p.email = 'brandon (at) systemisdown (dot) net'
-    p.runtime_dependencies = ['activesupport >= 2.1.0', 'libxml-ruby >=0.8.3']
+  # Parse gemspec using the github safety level.
+  file = Dir['*.gemspec'].first
+  data = File.read(file)
+  spec = nil
+  Thread.new { spec = eval("$SAFE = 3\n%s" % data)}.join
+
+  # Create the gem tasks
+  Rake::GemPackageTask.new(spec) do |package|
+    package.gem_spec = spec
   end
-rescue LoadError => boom
-  puts 'You are missing a dependency required for meta-operations on this gem.'
-  puts boom.to_s.capitalize
-end
- 
-desc 'Install the package as a gem, without generating documentation(ri/rdoc)'
-task :install_gem_no_doc => [:clean, :package] do
-  sh "#{'sudo ' unless Hoe::WINDOZE }gem install pkg/*.gem --no-rdoc --no-ri"
+rescue Exception => e
+  printf "WARNING: Error caught (%s): %s\n%s", e.class.name, e.message, e.backtrace[0...5].map {|l| '  %s' % l}.join("\n")
 end
 
-desc 'Run specs'
-Spec::Rake::SpecTask.new do |t|
-  t.spec_opts = ['--format', 'specdoc', '--colour', '--diff']
+desc 'Package and install the gem for the current version'
+task :install => :gem do
+  system "sudo gem install -l pkg/%s-%s.gem" % [spec.name, spec.version]
 end
