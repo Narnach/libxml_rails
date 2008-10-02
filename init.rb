@@ -1,1 +1,1 @@
-require 'bitbckt/core_ext/hash/conversions'
+require File.expand_path(File.join(File.dirname(__FILE__), 'lib', 'libxml_rails'))
