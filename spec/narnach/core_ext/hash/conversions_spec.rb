@@ -85,5 +85,9 @@ describe Hash, "#to_xml_with_libxml" do
       end
       libxml_xml.should == builder_xml
     end
+
+    it 'should pass test_two_levels' do
+      compare_with_rails_for({ :name => "David", :address => { :street => "Paulina" } })
+    end
   end
 end
