@@ -71,7 +71,7 @@ module Narnach #:nodoc:
                 content = XML_FORMATTING[type_name] ? XML_FORMATTING[type_name].call(value) : value
                 child = LibXML::XML::Node.new(key, content)
                 attributes.stringify_keys.each do |akey, avalue|
-                  child[akey] = avalue
+                  child[akey] = String(avalue)
                 end
                 doc << child
               end # if
