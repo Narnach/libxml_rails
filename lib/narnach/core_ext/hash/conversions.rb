@@ -5,6 +5,9 @@ module Narnach #:nodoc:
   module CoreExtensions #:nodoc:
     module Hash #:nodoc:
       module Conversions
+        XML_TYPE_NAMES = ActiveSupport::CoreExtensions::Hash::Conversions::XML_TYPE_NAMES unless defined?(XML_TYPE_NAMES)
+        XML_FORMATTING = ActiveSupport::CoreExtensions::Hash::Conversions::XML_FORMATTING unless defined?(XML_FORMATTING)
+
         # Contrary to XmlSimple, libxml_rails does not undasherize data in Hash#from_xml.
         # Disable dasherize by default to compensate for this.
         def to_xml(options = {})
@@ -58,14 +61,15 @@ module Narnach #:nodoc:
               if value.respond_to?(:to_xml_with_libxml)
                 value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true, :to_string => false }))
               else
-                type_name = ActiveSupport::CoreExtensions::Hash::Conversions::XML_TYPE_NAMES[value.class.name]
+                type_name = XML_TYPE_NAMES[value.class.name]
                 key = dasherize ? key.to_s.dasherize : key.to_s
                 attributes = options[:skip_types] || value.nil? || type_name.nil? ? { } : { :type => type_name }
                 if value.nil?
                   attributes[:nil] = true
                 end
 
-                child = LibXML::XML::Node.new(key, ActiveSupport::CoreExtensions::Hash::Conversions::XML_FORMATTING[type_name] ? ActiveSupport::CoreExtensions::Hash::Conversions::XML_FORMATTING[type_name].call(value) : value)
+                content = XML_FORMATTING[type_name] ? XML_FORMATTING[type_name].call(value) : value
+                child = LibXML::XML::Node.new(key, content)
                 attributes.stringify_keys.each do |akey, avalue|
                   child[akey] = avalue
                 end
