@@ -37,4 +37,18 @@ describe Hash, "#to_xml_with_libxml" do
     builder_xml = hsh.to_xml
     libxml_xml.should == builder_xml
   end
+
+  # These tests are adapted from the Rails ActiveSupport tests, so test to_xml_with_libxml in the same situations as to_xml
+  describe 'ActiveSupport tests' do
+    before(:each) do
+      @builder_xml_options = { :root => :person, :skip_instruct => true }
+      @libxml_options = { :root => :person, :skip_instruct => true }
+    end
+    it 'should pass test_one_level' do
+      hash = { :name => "David", :street => "Paulina" }
+      builder_xml = hash.to_xml(@builder_xml_options)
+      libxml_xml = hash.to_xml_with_libxml(@libxml_options)
+      libxml_xml.should == builder_xml
+    end
+  end
 end

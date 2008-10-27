@@ -19,25 +19,35 @@ module Narnach #:nodoc:
         #
         # Options supported in a different way:
         # - :builder. Holds the active LibXML::XML::Document or LibXML::XML::Node.
-        # - :skip_instruct. Determine if the document encoding needs to be set. Probably only applies to Document.
+        # - :skip_instruct. Determine if the document encoding needs to be set. When false, a new Document is created and used as :builder. When true a new Node is created when no :builder is specified.
         # - :dasherize, dasherize the node names or keep them as-is. Defaults to false instead of true.
         #
         # Options known but not (yet) supported:
         # - :indent, default to level 2
         def to_xml_with_libxml(options = {})
-          options.reverse_merge!({ :builder => LibXML::XML::Document.new, :root => "hash", :dasherize => false })
+          options.reverse_merge!({:root => "hash", :dasherize => false, :to_string => true })
           dasherize = options[:dasherize]
-          doc = options[:builder]
           root = dasherize ? options[:root].to_s.dasherize : options[:root].to_s
-          unless options.delete(:skip_instruct)
-            doc.encoding = 'UTF-8'
-            doc.root = LibXML::XML::Node.new(root)
-          else
+          to_string = options.delete(:to_string)
+          skip_instruct = options.delete(:skip_instruct)
+          doc = nil
+          if skip_instruct
             node = LibXML::XML::Node.new(root)
-            doc.root << node
             doc = node
+            case options[:builder]
+            when LibXML::XML::Document
+              options[:builder].root << node
+            when nil
+              options[:builder] = node
+            else
+              options[:builder] << node
+            end
+          else
+            options[:builder] = LibXML::XML::Document.new
+            options[:builder].encoding = 'UTF-8'
+            options[:builder].root = LibXML::XML::Node.new(root)
+            doc = options[:builder].root
           end
-          doc = doc.root if doc.kind_of?(LibXML::XML::Document)
           self.each do |key, value|
             # case value
             # when ::Hash
@@ -46,7 +56,7 @@ module Narnach #:nodoc:
             # when ::Method, ::Proc
             # else
               if value.respond_to?(:to_xml_with_libxml)
-                value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true }))
+                value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true, :to_string => false }))
               else
                 type_name = ActiveSupport::CoreExtensions::Hash::Conversions::XML_TYPE_NAMES[value.class.name]
                 key = dasherize ? key.to_s.dasherize : key.to_s
@@ -64,7 +74,13 @@ module Narnach #:nodoc:
             # end # case
           end # each
           yield options[:builder] if block_given?
-          return options[:builder]
+          if to_string
+            string = options[:builder].to_s
+            string << "\n" if skip_instruct # Emulate Builder behaviour
+            return string
+          else
+            return options[:builder]
+          end
         end # to_xml_with_libxml
       end # module Conversions
     end # module Hash
