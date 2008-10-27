@@ -44,11 +44,19 @@ describe Hash, "#to_xml_with_libxml" do
       @builder_xml_options = { :root => :person, :skip_instruct => true }
       @libxml_options = { :root => :person, :skip_instruct => true }
     end
-    it 'should pass test_one_level' do
-      hash = { :name => "David", :street => "Paulina" }
-      builder_xml = hash.to_xml(@builder_xml_options)
-      libxml_xml = hash.to_xml_with_libxml(@libxml_options)
+
+    def compare_with_rails_for(hash, custom_builder_options={}, custom_libxml_options={})
+      builder_xml = hash.to_xml(@builder_xml_options.merge(custom_builder_options))
+      libxml_xml = hash.to_xml_with_libxml(@libxml_options.merge(custom_libxml_options))
       libxml_xml.should == builder_xml
+    end
+
+    it 'should pass test_one_level' do
+      compare_with_rails_for({ :name => "David", :street => "Paulina" })
+    end
+
+    it 'should pass test_one_level_dasherize_false' do
+      compare_with_rails_for({ :name => "David", :street_name => "Paulina" }, {:dasherize => false}, {:dasherize => false})
     end
   end
 end
