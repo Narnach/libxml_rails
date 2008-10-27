@@ -62,5 +62,9 @@ describe Hash, "#to_xml_with_libxml" do
     it 'should pass test_one_level_dasherize_true' do
       compare_with_rails_for({ :name => "David", :street_name => "Paulina" }, {:dasherize => true}, {:dasherize => true})
     end
+    
+    it 'should pass test_one_level_with_types' do
+      compare_with_rails_for({ :name => "David", :street => "Paulina", :age => 26, :age_in_millis => 820497600000, :moved_on => Date.new(2005, 11, 15), :resident => :yes })
+    end
   end
 end
