@@ -30,4 +30,11 @@ describe Hash, "#to_xml_with_libxml" do
     builder_xml = hsh.to_xml
     libxml_xml.should == builder_xml
   end
+
+  it "should convert a Hash with nested Hash" do
+    hsh = {:one => 1, 'two' => { :three => 3}}
+    libxml_xml = hsh.to_xml_with_libxml.to_s
+    builder_xml = hsh.to_xml
+    libxml_xml.should == builder_xml
+  end
 end

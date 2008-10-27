@@ -25,21 +25,26 @@ module Narnach #:nodoc:
         # Options known but not (yet) supported:
         # - :indent, default to level 2
         def to_xml_with_libxml(options = {})
-          options.reverse_merge!({ :builder => LibXML::XML::Document.new, :root => "hash", :dahserize => false })
+          options.reverse_merge!({ :builder => LibXML::XML::Document.new, :root => "hash", :dasherize => false })
           dasherize = options[:dasherize]
           doc = options[:builder]
           root = dasherize ? options[:root].to_s.dasherize : options[:root].to_s
           unless options.delete(:skip_instruct)
             doc.encoding = 'UTF-8'
             doc.root = LibXML::XML::Node.new(root)
-            doc = doc.root
+          else
+            node = LibXML::XML::Node.new(root)
+            doc.root << node
+            doc = node
           end
+          doc = doc.root if doc.kind_of?(LibXML::XML::Document)
           self.each do |key, value|
-            case value
-            when ::Hash
+            # case value
+            # when ::Hash
+            #   value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true }))
             # when ::Array
             # when ::Method, ::Proc
-            else
+            # else
               if value.respond_to?(:to_xml_with_libxml)
                 value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true }))
               else
@@ -56,7 +61,7 @@ module Narnach #:nodoc:
                 end
                 doc << child
               end # if
-            end # case
+            # end # case
           end # each
           yield options[:builder] if block_given?
           return options[:builder]
