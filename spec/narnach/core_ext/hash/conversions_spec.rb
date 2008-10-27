@@ -70,5 +70,9 @@ describe Hash, "#to_xml_with_libxml" do
     it 'should pass test_one_level_with_nils' do
       compare_with_rails_for({ :name => "David", :street => "Paulina", :age => nil })
     end
+
+    it 'should pass test_one_level_with_skipping_types' do
+      compare_with_rails_for({ :name => "David", :street => "Paulina", :age => nil }, {:skip_types => true}, {:skip_types => true})
+    end
   end
 end
