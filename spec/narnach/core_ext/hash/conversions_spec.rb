@@ -74,5 +74,16 @@ describe Hash, "#to_xml_with_libxml" do
     it 'should pass test_one_level_with_skipping_types' do
       compare_with_rails_for({ :name => "David", :street => "Paulina", :age => nil }, {:skip_types => true}, {:skip_types => true})
     end
+    
+    it 'should pass test_one_level_with_yielding' do
+      hash = { :name => "David", :street => "Paulina" }
+      builder_xml = hash.to_xml(@builder_xml_options) do |x|
+        x.creator("Rails")
+      end
+      libxml_xml = hash.to_xml_with_libxml(@libxml_options) do |x|
+        x << LibXML::XML::Node.new('creator', 'Rails')
+      end
+      libxml_xml.should == builder_xml
+    end
   end
 end
