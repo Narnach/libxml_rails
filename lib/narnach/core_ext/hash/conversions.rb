@@ -1,3 +1,5 @@
+require 'activesupport'
+
 module Narnach #:nodoc:
   module CoreExtensions #:nodoc:
     module Hash #:nodoc:

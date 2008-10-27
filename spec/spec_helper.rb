@@ -1,8 +1,4 @@
-require 'rubygems'
-require 'spec'
-gem 'activesupport', '=2.1.0'
-require 'active_support'
+lib_dir = File.expand_path(File.join(File.dirname(__FILE__),'..','lib'))
+$LOAD_PATH.unshift(lib_dir)
 
-$:.unshift 'lib/', File.dirname(__FILE__) + '/../lib'
-
-require 'init'
+require 'libxml_rails'

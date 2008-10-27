@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
+require 'libxml_rails'
 
 describe Hash, '#to_xml' do
   it "should default to not dasherize data" do
