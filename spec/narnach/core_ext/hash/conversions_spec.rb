@@ -23,6 +23,21 @@ describe Hash, '#to_xml' do
   end
 end
 
+class IWriteMyOwnXML
+  def to_xml(options = {})
+    options[:indent] ||= 2
+    xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
+    xml.instruct! unless options[:skip_instruct]
+    xml.level_one do
+      xml.tag!(:second_level, 'content')
+    end
+  end
+  
+  def to_xml_with_libxml(options = {})
+    {:second_level => 'content'}.to_xml_with_libxml(options.merge(:root => 'level_one'))
+  end
+end
+
 describe Hash, "#to_xml_with_libxml" do
   it "should convert a Hash with one element" do
     hsh = {:one => 1}
@@ -88,6 +103,10 @@ describe Hash, "#to_xml_with_libxml" do
 
     it 'should pass test_two_levels' do
       compare_with_rails_for({ :name => "David", :address => { :street => "Paulina" } })
+    end
+
+    it 'should pass test_two_levels_with_second_level_overriding_to_xml' do
+      compare_with_rails_for({ :name => "David", :address => { :street => "Paulina" }, :child => IWriteMyOwnXML.new })
     end
   end
 end
