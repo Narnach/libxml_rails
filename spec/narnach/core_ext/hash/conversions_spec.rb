@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
-require 'libxml_rails'
+require 'narnach/core_ext/hash/conversions'
 
 describe Hash, '#to_xml' do
   it "should default to not dasherize data" do
@@ -20,5 +20,14 @@ describe Hash, '#to_xml' do
 </hash>
     XML
     {:post_id=>1}.to_xml(:dasherize => true).should == expected_xml
+  end
+end
+
+describe Hash, "#to_xml_with_libxml" do
+  it "should convert a Hash with one element" do
+    hsh = {:one => 1}
+    libxml_xml = hsh.to_xml_with_libxml.to_s
+    builder_xml = hsh.to_xml
+    libxml_xml.should == builder_xml
   end
 end
