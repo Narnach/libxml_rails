@@ -112,5 +112,15 @@ describe Hash, "#to_xml_with_libxml" do
     it 'should pass test_two_levels_with_array' do
       compare_with_rails_for({ :name => "David", :addresses => [{ :street => "Paulina" }, { :street => "Evergreen" }] })
     end
+
+    it 'should test_three_levels_with_array' do
+      compare_with_rails_for({ :name => "David", :addresses => [{ :streets => [ { :name => "Paulina" }, { :name => "Paulina" } ] } ] })
+    end
+
+    # The XML builder seems to fail miserably when trying to tag something
+    # with the same name as a Kernel method (throw, test, loop, select ...)
+    it 'should pass test_kernel_method_names_to_xml' do
+      compare_with_rails_for({ :throw => { :ball => 'red' } })
+    end
   end
 end

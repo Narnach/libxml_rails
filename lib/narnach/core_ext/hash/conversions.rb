@@ -10,9 +10,9 @@ module Narnach #:nodoc:
 
         # Contrary to XmlSimple, libxml_rails does not undasherize data in Hash#from_xml.
         # Disable dasherize by default to compensate for this.
-        def to_xml(options = {})
+        def to_xml(options = {}, &block)
           options[:dasherize]= false unless options.has_key?(:dasherize)
-          super options
+          super
         end
 
         # Version of #to_xml copy-adjusted from ActiveSupport to work with libxml.
@@ -55,14 +55,14 @@ module Narnach #:nodoc:
           end
           self.each do |key, value|
             case value
-            # when ::Hash
-            #   value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true }))
+            when ::Hash
+              value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true, :to_string => false, :builder => doc }))
             when ::Array
-              value.to_xml_with_libxml(options.merge({ :root => key, :children => key.to_s.singularize, :skip_instruct => true, :to_string => false}))
+              value.to_xml_with_libxml(options.merge({ :root => key, :children => key.to_s.singularize, :skip_instruct => true, :to_string => false, :builder => doc}))
             # when ::Method, ::Proc
             else
               if value.respond_to?(:to_xml_with_libxml)
-                value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true, :to_string => false }))
+                value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true, :to_string => false, :builder => doc }))
               else
                 type_name = XML_TYPE_NAMES[value.class.name]
                 key = dasherize ? key.to_s.dasherize : key.to_s
