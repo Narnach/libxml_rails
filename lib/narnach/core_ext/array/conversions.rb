@@ -5,6 +5,8 @@ module Narnach #:nodoc:
   module CoreExtensions #:nodoc:
     module Array #:nodoc:
       module Conversions
+        # Version of #to_xml copy-adjusted from ActiveSupport to work with libxml.
+        # 
         # Options not supported:
         # - :indent
         def to_xml_with_libxml(options = {})

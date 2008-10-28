@@ -15,6 +15,8 @@ module Narnach #:nodoc:
           super options
         end
 
+        # Version of #to_xml copy-adjusted from ActiveSupport to work with libxml.
+        # 
         # Options supported in XMLBuilder that are/will be supported here:
         # - :root, name of root node. Default to hash
         # - :children, name of child nodes. Default to singular of root.
