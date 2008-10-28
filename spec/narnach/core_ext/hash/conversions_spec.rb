@@ -129,5 +129,14 @@ describe Hash, "#to_xml_with_libxml" do
         :pre_escaped_string => 'First &amp; Last Name'
       }.stringify_keys)
     end
+
+    it 'should pass test_roundtrip_to_xml_from_xml' do
+      hash = { 
+        :bare_string        => 'First & Last Name', 
+        :pre_escaped_string => 'First &amp; Last Name'
+      }.stringify_keys
+
+      Hash.from_xml(hash.to_xml_with_libxml(@libxml_options))['person'].should == hash
+    end
   end
 end
