@@ -21,6 +21,29 @@ describe Hash, '#to_xml' do
     XML
     {:post_id=>1}.to_xml(:dasherize => true).should == expected_xml
   end
+
+  # # libxml will not break, but it takes about 140MB and 60 seconds on a 2.4GHz Core2 Duo Macbook to succeed.
+  # # It would be nice if entity expansion could be disabled if you don't plan to use it.
+  # it 'should pass test_expansion_count_is_limited' do
+  #   attack_xml = <<-EOT
+  #   <?xml version="1.0" encoding="UTF-8"?>
+  #   <!DOCTYPE member [
+  #     <!ENTITY a "&b;&b;&b;&b;&b;&b;&b;&b;&b;&b;">
+  #     <!ENTITY b "&c;&c;&c;&c;&c;&c;&c;&c;&c;&c;">
+  #     <!ENTITY c "&d;&d;&d;&d;&d;&d;&d;&d;&d;&d;">
+  #     <!ENTITY d "&e;&e;&e;&e;&e;&e;&e;&e;&e;&e;">
+  #     <!ENTITY e "&f;&f;&f;&f;&f;&f;&f;&f;&f;&f;">
+  #     <!ENTITY f "&g;&g;&g;&g;&g;&g;&g;&g;&g;&g;">
+  #     <!ENTITY g "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+  #   ]>
+  #   <member>
+  #   &a;
+  #   </member>
+  #   EOT
+  #   lambda {
+  #     Hash.from_xml(attack_xml)
+  #   }.should_not raise_error
+  # end
 end
 
 class IWriteMyOwnXML
