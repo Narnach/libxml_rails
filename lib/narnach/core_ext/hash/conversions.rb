@@ -52,12 +52,13 @@ module Narnach #:nodoc:
             doc = options[:builder].root
           end
           self.each do |key, value|
-            # case value
+            case value
             # when ::Hash
             #   value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true }))
-            # when ::Array
+            when ::Array
+              value.to_xml_with_libxml(options.merge({ :root => key, :children => key.to_s.singularize, :skip_instruct => true, :to_string => false}))
             # when ::Method, ::Proc
-            # else
+            else
               if value.respond_to?(:to_xml_with_libxml)
                 value.to_xml_with_libxml(options.merge({ :root => key, :skip_instruct => true, :to_string => false }))
               else
@@ -75,7 +76,7 @@ module Narnach #:nodoc:
                 end
                 doc << child
               end # if
-            # end # case
+            end # case
           end # each
           yield options[:builder] if block_given?
           if to_string

@@ -108,5 +108,9 @@ describe Hash, "#to_xml_with_libxml" do
     it 'should pass test_two_levels_with_second_level_overriding_to_xml' do
       compare_with_rails_for({ :name => "David", :address => { :street => "Paulina" }, :child => IWriteMyOwnXML.new })
     end
+    
+    it 'should pass test_two_levels_with_array' do
+      compare_with_rails_for({ :name => "David", :addresses => [{ :street => "Paulina" }, { :street => "Evergreen" }] })
+    end
   end
 end
