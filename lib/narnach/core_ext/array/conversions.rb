@@ -12,12 +12,13 @@ module Narnach #:nodoc:
         def to_xml_with_libxml(options = {})
           raise "Not all elements respond to to_xml" unless all? { |e| e.respond_to? :to_xml_with_libxml }
           options.reverse_merge!({:dasherize => false, :to_string => true, :skip_instruct => false })
-          options[:root]     ||= all? { |e| e.is_a?(first.class) && first.class.to_s != "Hash" } ? first.class.to_s.underscore.pluralize : "records"
-          options[:children] ||= options[:root].singularize
           dasherize = options[:dasherize]
+          options[:root]     ||= all? { |e| e.is_a?(first.class) && first.class.to_s != "Hash" } ? first.class.to_s.underscore.pluralize : "records"
+          options[:root]     = options[:root].to_s.dasherize if dasherize
+          options[:children] ||= options[:root].singularize
           to_string = options.delete(:to_string)
           skip_instruct = options.delete(:skip_instruct)
-          root = dasherize ? options[:root].to_s.dasherize : options[:root].to_s
+          root     = options.delete(:root).to_s
           doc = nil
           if skip_instruct
             node = LibXML::XML::Node.new(root)
@@ -39,10 +40,7 @@ module Narnach #:nodoc:
           doc['type'] = 'array' unless options[:skip_types]
 
 
-          root     = options.delete(:root).to_s
-          root     = root.dasherize if dasherize
           children = options.delete(:children)
-
           opts = options.merge({ :root => children })
 
           unless empty?
