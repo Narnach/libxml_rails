@@ -122,5 +122,12 @@ describe Hash, "#to_xml_with_libxml" do
     it 'should pass test_kernel_method_names_to_xml' do
       compare_with_rails_for({ :throw => { :ball => 'red' } })
     end
+
+    it 'should pass test_escaping_to_xml' do
+      compare_with_rails_for({ 
+        :bare_string        => 'First & Last Name', 
+        :pre_escaped_string => 'First &amp; Last Name'
+      }.stringify_keys)
+    end
   end
 end

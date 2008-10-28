@@ -29,6 +29,8 @@ module Narnach #:nodoc:
         #
         # Options known but not (yet) supported:
         # - :indent, default to level 2
+        #
+        # Uses Builder's String#to_xs for escaping
         def to_xml_with_libxml(options = {})
           options.reverse_merge!({:root => "hash", :dasherize => false, :to_string => true })
           dasherize = options[:dasherize]
@@ -72,9 +74,9 @@ module Narnach #:nodoc:
                 end
 
                 content = XML_FORMATTING[type_name] ? XML_FORMATTING[type_name].call(value) : value
-                child = LibXML::XML::Node.new(key, content)
+                child = LibXML::XML::Node.new(key, content.to_s.to_xs)
                 attributes.stringify_keys.each do |akey, avalue|
-                  child[akey] = String(avalue)
+                  child[akey] = String(avalue).to_s.to_xs
                 end
                 doc << child
               end # if
