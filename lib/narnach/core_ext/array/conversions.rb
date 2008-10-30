@@ -5,21 +5,14 @@ module Narnach #:nodoc:
   module CoreExtensions #:nodoc:
     module Array #:nodoc:
       module Conversions
-        # Contrary to XmlSimple, libxml_rails does not undasherize data in Hash#from_xml.
-        # Disable dasherize by default to compensate for this.
-        def to_xml(options = {}, &block)
-          options[:dasherize]= false unless options.has_key?(:dasherize)
-          super
-        end
-
         # Version of #to_xml copy-adjusted from ActiveSupport to work with libxml.
         # 
         # Options not supported:
         # - :indent
         def to_xml_with_libxml(options = {})
           raise "Not all elements respond to to_xml" unless all? { |e| e.respond_to? :to_xml_with_libxml }
-          options.reverse_merge!({:dasherize => false, :to_string => true, :skip_instruct => false })
-          dasherize = options[:dasherize]
+          options.reverse_merge!({:to_string => true, :skip_instruct => false })
+          dasherize = !options.has_key?(:dasherize) || options[:dasherize]
           options[:root]     ||= all? { |e| e.is_a?(first.class) && first.class.to_s != "Hash" } ? first.class.to_s.underscore.pluralize : "records"
           options[:root]     = options[:root].to_s.dasherize if dasherize
           options[:children] ||= options[:root].singularize

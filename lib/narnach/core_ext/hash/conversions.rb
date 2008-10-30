@@ -8,13 +8,6 @@ module Narnach #:nodoc:
         XML_TYPE_NAMES = ActiveSupport::CoreExtensions::Hash::Conversions::XML_TYPE_NAMES unless defined?(XML_TYPE_NAMES)
         XML_FORMATTING = ActiveSupport::CoreExtensions::Hash::Conversions::XML_FORMATTING unless defined?(XML_FORMATTING)
 
-        # Contrary to XmlSimple, libxml_rails does not undasherize data in Hash#from_xml.
-        # Disable dasherize by default to compensate for this.
-        def to_xml(options = {}, &block)
-          options[:dasherize]= false unless options.has_key?(:dasherize)
-          super
-        end
-
         # Version of #to_xml copy-adjusted from ActiveSupport to work with libxml.
         # 
         # Options supported in XMLBuilder that are/will be supported here:
@@ -25,15 +18,15 @@ module Narnach #:nodoc:
         # Options supported in a different way:
         # - :builder. Holds the active LibXML::XML::Document or LibXML::XML::Node.
         # - :skip_instruct. Determine if the document encoding needs to be set. When false, a new Document is created and used as :builder. When true a new Node is created when no :builder is specified.
-        # - :dasherize, dasherize the node names or keep them as-is. Defaults to false instead of true.
+        # - :dasherize, dasherize the node names or keep them as-is.
         #
         # Options known but not (yet) supported:
         # - :indent, default to level 2
         #
         # Uses Builder's String#to_xs for escaping
         def to_xml_with_libxml(options = {})
-          options.reverse_merge!({:root => "hash", :dasherize => false, :to_string => true })
-          dasherize = options[:dasherize]
+          options.reverse_merge!({:root => "hash", :to_string => true })
+          dasherize = !options.has_key?(:dasherize) || options[:dasherize]
           root = dasherize ? options[:root].to_s.dasherize : options[:root].to_s
           to_string = options.delete(:to_string)
           skip_instruct = options.delete(:skip_instruct)

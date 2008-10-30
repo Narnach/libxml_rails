@@ -1,27 +1,16 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
-require 'narnach/core_ext/hash/conversions'
 
-describe Hash, '#to_xml' do
-  it "should default to not dasherize data" do
-    expected_xml = <<-XML
+describe Hash, '#from_xml' do
+  it "should undasherize the Hash keys" do
+    xml = <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
-<hash>
-  <post_id type="integer">1</post_id>
-</hash>
+<post>
+  <post-id type="integer">1</post-id>
+</post>
     XML
-    {:post_id=>1}.to_xml.should == expected_xml
+    Hash.from_xml(xml).should == {'post' => {'post_id' => 1}}
   end
   
-  it 'should allow dasherizing the data' do
-    expected_xml = <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<hash>
-  <post-id type="integer">1</post-id>
-</hash>
-    XML
-    {:post_id=>1}.to_xml(:dasherize => true).should == expected_xml
-  end
-
   # # libxml will not break, but it takes about 140MB and 60 seconds on a 2.4GHz Core2 Duo Macbook to succeed.
   # # It would be nice if entity expansion could be disabled if you don't plan to use it.
   # it 'should pass test_expansion_count_is_limited' do
@@ -57,7 +46,7 @@ class IWriteMyOwnXML
   end
   
   def to_xml_with_libxml(options = {})
-    {:second_level => 'content'}.to_xml_with_libxml(options.merge(:root => 'level_one'))
+    {:second_level => 'content'}.to_xml_with_libxml(options.merge(:root => 'level_one', :dasherize => false))
   end
 end
 

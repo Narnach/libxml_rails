@@ -25,7 +25,7 @@ describe Hash, '.from_xml' do
         <resident type="symbol">yes</resident>
       </topic>
     EOT
- 
+
     expected_topic_hash = {
       :title => "The First Topic",
       :author_name => "David",
