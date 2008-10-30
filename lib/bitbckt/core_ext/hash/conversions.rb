@@ -1,3 +1,4 @@
+require 'active_support'
 require 'libxml'
 
 module Bitbckt #:nodoc:
@@ -13,9 +14,9 @@ module Bitbckt #:nodoc:
           def from_xml(xml)
             result = LibXML::XML::Parser.string(xml).parse
             if result.root.attributes['type'] == 'array'
-              { result.root.name.to_s => array_from_node(result.root) }
+              { result.root.name.to_s.gsub(/-/,'_') => array_from_node(result.root) }
             else
-              { result.root.name.to_s => xml_node_to_hash(result.root)}
+              { result.root.name.to_s.gsub(/-/,'_') => xml_node_to_hash(result.root) }
             end
           end     
 

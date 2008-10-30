@@ -314,4 +314,15 @@ describe Hash, '.from_xml' do
      alert_at.min.should    == 30
      alert_at.sec.should    == 45
   end
+
+  it 'undasherizes the root node name' do
+    xml = <<-EOT
+<?xml version="1.0" encoding="UTF-8"?>
+<with-dash>
+  <another-dash>text</another-dash>
+</with-dash>
+    EOT
+    expected_hash = { "with_dash" => {"another_dash"=>"text"} }
+    Hash.from_xml(xml).should == expected_hash
+  end
 end
