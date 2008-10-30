@@ -1,6 +1,4 @@
 require 'rubygems'
-gem 'libxml-ruby', '=0.8.3'
-gem 'activesupport', '=2.1.0'
 require 'bitbckt/core_ext/hash/conversions'
 require 'narnach/core_ext/hash/conversions'
 require 'narnach/core_ext/array/conversions'

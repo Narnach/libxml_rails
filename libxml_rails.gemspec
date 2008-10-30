@@ -3,8 +3,8 @@ Gem::Specification.new do |s|
   s.name         = 'libxml_rails'
   s.summary      = "Libxml_rails replaces ActiveSupport's XmlSimple XML parsing with libxml-ruby."
   s.description  = "Libxml_rails replaces ActiveSupport's XmlSimple XML parsing with libxml-ruby. Original gem by Brandon Mitchell, this fork is by Wes 'Narnach' Oldenbeuving."
-  s.version      = '0.0.2.2'
-  s.date         = '2008-10-02'
+  s.version      = '0.0.2.3'
+  s.date         = '2008-10-30'
   s.platform     = Gem::Platform::RUBY
   s.authors      = ["Brandon Mitchell", "Wes Oldenbeuving"]
   s.email        = "narnach@gmail.com"
@@ -12,8 +12,8 @@ Gem::Specification.new do |s|
 
   # Files
   root_files     = %w[CHANGELOG init.rb libxml_rails.gemspec MIT-LICENSE Rakefile README.rdoc]
-  lib_files      = %w[bitbckt/core_ext/hash/conversions narnach/core_ext/hash/conversions libxml_rails]
-  spec_files     = %w[from_xml]
+  lib_files      = %w[bitbckt/core_ext/hash/conversions narnach/core_ext/hash/conversions narnach/core_ext/array/conversions libxml_rails]
+  spec_files     = %w[from_xml] + lib_files.select{|f| f[0...7] == 'narnach'}
   other_files    = %w[spec/spec_helper.rb]
   s.require_path = "lib"
   s.executables  = []
@@ -26,8 +26,8 @@ Gem::Specification.new do |s|
   s.rdoc_options << '--inline-source' << '--line-numbers' << '--main' << 'README.rdoc'
 
   # Dependencies
-  s.add_dependency 'activesupport', '= 2.1.0'
-  s.add_dependency 'libxml-ruby', '= 0.8.3'
+  s.add_dependency 'activesupport', '>= 2.1.0'
+  s.add_dependency 'libxml-ruby', '>= 0.8.3'
 
   # Requirements
   s.required_ruby_version = ">= 1.8.0"

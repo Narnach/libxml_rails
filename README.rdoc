@@ -6,7 +6,7 @@ This fork is maintained by Wes 'Narnach' Oldenbeuving.
 
 Changes from the Brandon's version are:
 * Don't rely on echoe to build the gem.
-* Default Hash#to_xml to not be dasherized to compensate for Hash#from_xml not undasherizing the data.
+* Added Hash#to_xml_with_libxml and Array#to_xml_with_libxml
 
 === Installation
 
