@@ -1,6 +1,3 @@
-require 'activesupport'
-require 'libxml'
-
 module Narnach #:nodoc:
   module CoreExtensions #:nodoc:
     module Array #:nodoc:

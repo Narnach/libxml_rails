@@ -1,6 +1,3 @@
-require 'active_support'
-require 'libxml'
-
 module Bitbckt #:nodoc:
   module CoreExtensions #:nodoc:
     module Hash #:nodoc:
