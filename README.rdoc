@@ -7,6 +7,8 @@ This fork is maintained by Wes 'Narnach' Oldenbeuving.
 Changes from the Brandon's version are:
 * Don't rely on echoe to build the gem.
 * Added Hash#to_xml_with_libxml and Array#to_xml_with_libxml
+* ActiveResource::Base#to_xml uses libxml.
+* ActiveResource::Formats::XmlFormat#encode uses libxml
 
 === Installation
 
