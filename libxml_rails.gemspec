@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   # Project
   s.name         = 'libxml_rails'
-  s.summary      = "Libxml_rails replaces ActiveSupport's XmlSimple XML parsing with libxml-ruby."
   s.description  = "Libxml_rails replaces ActiveSupport's XmlSimple XML parsing with libxml-ruby. Original gem by Brandon Mitchell, this fork is by Wes 'Narnach' Oldenbeuving."
+  s.summary      = s.description
   s.version      = '0.0.2.5'
-  s.date         = '2008-10-31'
+  s.date         = '2009-01-06'
   s.platform     = Gem::Platform::RUBY
   s.authors      = ["Brandon Mitchell", "Wes Oldenbeuving"]
   s.email        = "narnach@gmail.com"
